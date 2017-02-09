@@ -18,9 +18,9 @@ if sys.getdefaultencoding() != defaultencoding:
     sys.setdefaultencoding(defaultencoding)
 
 # mail
-mail_user = "monitor@kashuo.com"
-mail_pass = "1q2w3e4R"
-smtp_server = "smtp.kashuo.com"
+mail_user = "monitor@xxx.com"
+mail_pass = "xxx"
+smtp_server = "smtp.xxx.com"
 to_list = []
 
 def send_mail(username,password,smtp_server,to_list,sub,content):
@@ -58,7 +58,7 @@ def send_wechat(sub,content):
 
 def mysql_dml(sql):    
     try:
-        conn = MySQLdb.connect(host='127.0.0.1',user='zabbix_user',passwd='kashuoops741258963',port=33639,charset="utf8",connect_timeout=100)
+        conn = MySQLdb.connect(host='127.0.0.1',user='zabbix_user',passwd='xxx',port=3306,charset="utf8",connect_timeout=100)
         conn.select_db('zabbix')
         cur = conn.cursor()
         cur.execute("SET NAMES utf8");         
@@ -75,7 +75,7 @@ def mysql_dml(sql):
         print "mysql dml error:" ,e
 
 def write_errlog_influxdb(database,table,host,count,value):
-    db = influxdb.InfluxDBClient('127.0.0.1', 18086, 'root', 'kashuoops741258963', '%s'%(database))
+    db = influxdb.InfluxDBClient('127.0.0.1', 8086, 'root', 'xxx', '%s'%(database))
     json_body = [{"measurement": table,"tags": {"host": host,"count": count},"fields": {"value": value}}]
     try:
         db.write_points(json_body)
@@ -83,7 +83,7 @@ def write_errlog_influxdb(database,table,host,count,value):
         print 'error:',e
 
 def query_host(itmeid_in):
-    conn = MySQLdb.connect(host='127.0.0.1',user='zabbix_user',passwd='kashuoops741258963',port=33639,charset="utf8",connect_timeout=20)
+    conn = MySQLdb.connect(host='127.0.0.1',user='zabbix_user',passwd='xxx',port=3306,charset="utf8",connect_timeout=20)
     conn.select_db('zabbix')
     with conn:
         cur = conn.cursor(MySQLdb.cursors.DictCursor)
@@ -99,7 +99,7 @@ def query_host(itmeid_in):
 
 #获得上次捞取history_log表数据的标记位置，如果pre_clock为空，则取5分钟前的clock
 def query_pre_clock():
-    conn = MySQLdb.connect(host='127.0.0.1',user='zabbix_user',passwd='kashuoops741258963',port=33639,charset="utf8",connect_timeout=20)
+    conn = MySQLdb.connect(host='127.0.0.1',user='zabbix_user',passwd='xxx',port=3306,charset="utf8",connect_timeout=20)
     conn.select_db('zabbix')
     with conn:
         cur = conn.cursor(MySQLdb.cursors.DictCursor)
@@ -120,7 +120,7 @@ def query_pre_clock():
 
 #将zabbix history_log表数据捞取出来逐一过滤，存入zm_log_error_filter表
 def logfilter(pre_clock):
-    conn = MySQLdb.connect(host='127.0.0.1',user='zabbix_user',passwd='kashuoops741258963',port=33639,charset="utf8",connect_timeout=20)
+    conn = MySQLdb.connect(host='127.0.0.1',user='zabbix_user',passwd='xxx',port=3306,charset="utf8",connect_timeout=20)
     conn.select_db('zabbix')
     with conn:
         cur = conn.cursor(MySQLdb.cursors.DictCursor)
@@ -141,24 +141,6 @@ def logfilter(pre_clock):
             print "处理前报错内容为:",row["value"]
             itemid = row["itemid"]
             ns = row["ns"]
-            #财务
-            if 'insertSelective' in row["value"]:
-                continue
-            if '[ERROR]:此用户无权限访问' in row["value"]:
-                continue
-            #知店
-            if '商户[11]没有积分规则' in row["value"]:
-                continue
-            if 'com.kashuo.crm.utils.DesUtil 68 ERROR: DES加密出错' in row["value"]:
-                continue
-            if 'com.kashuo.crm.cache.BankCardCacheManager 106 ERROR: 缓存中获取银行卡' in row["value"]:
-                continue
-            if 'com.kashuo.crm.logic.kf.CommonLogic 147 ERROR: level promotion setting 的level[2]无值' in row["value"]:
-                continue
-            if '缓存中获取银行卡[11]的mobile' in row["value"]:
-                continue
-            if 'com.kashuo.crm.config.JerseyJacksonExceptionSupport 87 ERROR: {"code":"INVALID_TOKEN","msg":"token无效"}' in row["value"]:
-                continue
             if 'AfterRequestToResponse 49 INFO' in row["value"]:
                 continue
             str1 = re.sub('[\[]{0,1}[\d]{4}-[\d]{2}-[\d]{2} [\d]{2}:[\d]{2}:[\d]{2}[\,]{0,1}[\d]{0,3}[\]]{0,1}\s*','',row["value"])
@@ -176,27 +158,17 @@ def md5(strs):
     return m.hexdigest()
 
 def process_maillist(itemname):
-    if 'wxhb' in itemname:
-        to_list = ["zoujianbo@kashuo.com","pengcunhua@kashuo.com"]
-    elif 'finance' in itemname:
-        to_list = ["zoujianbo@kashuo.com","honggang@kashuo.com"]
-    elif 'jinshang' in itemname or 'zhidian' in itemname or 'zdcrm' in itemname:
-        to_list = ["zoujianbo@kashuo.com","zhaochencheng@kashuo.com","yangyincong@kashuo.com"]
-    elif 'kop' in itemname:
-        to_list = ["zoujianbo@kashuo.com","miaojiongwei@kashuo.com"]
-    elif 'auth' in itemname:
-        to_list = ["zoujianbo@kashuo.com","zhuminghua@kashuo.com"]
-    elif 'kap' in itemname and 'kapconfig' not in itemname:
-        to_list = ["zoujianbo@kashuo.com","douhuatong@kashuo.com"]
-    elif 'kapconfig' in itemname:
-        to_list = ["zoujianbo@kashuo.com","shiping@kashuo.com"]
+    if 'xxx' in itemname:
+        to_list = ["xxx@xxx.com"]
+    elif 'xxx2' in itemname:
+        to_list = ["xxx2@xxx2.com"]
     else:
-        to_list = ["zoujianbo@kashuo.com"]
+        to_list = ["zoujianbo@xxx.com"]
     return to_list
 
 #main
 try:
-    conn = MySQLdb.connect(host='127.0.0.1',user='zabbix_user',passwd='kashuoops741258963',port=33639,charset="utf8",connect_timeout=20)
+    conn = MySQLdb.connect(host='127.0.0.1',user='zabbix_user',passwd='xxx',port=3306,charset="utf8",connect_timeout=20)
     conn.select_db('zabbix')
     with conn:
         cur = conn.cursor(MySQLdb.cursors.DictCursor)
