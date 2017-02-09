@@ -25,7 +25,7 @@ to_list = []
 
 def send_mail(username,password,smtp_server,to_list,sub,content):
     print to_list
-    me = "monitor@kashuo.com"
+    me = "monitor@xxx.com"
     msg = MIMEMultipart()
     msgText = MIMEText(content,_subtype="html",_charset="utf8")
     msg["Subject"] = sub
