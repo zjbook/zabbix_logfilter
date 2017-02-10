@@ -48,8 +48,7 @@ def send_wechat(sub,content):
         values['title'] = sub
         values['content'] = content
         data = urllib.urlencode(values) 
-        #url = "http://sc.ftqq.com/SCU237T9a4fddbeef403320c73db5b61752837f55f0f5077044d.send"
-        url = "http://222.92.13.226:29000/wechat/push?appId=suzhouaizhi"
+        url = "http://sc.ftqq.com/SCU237T9a4fddbeef403320c73db5b61752837f55f0f5077044d.send"
         #geturl = url + "?"+data
         request = urllib2.Request(url,data)
         urllib2.urlopen(request)
